@@ -1,16 +1,25 @@
 package org.ylxz.rest.client;
 
+import java.util.HashMap;
+
+import javax.net.ssl.SSLContext;
 import javax.ws.rs.client.Client;  
 import javax.ws.rs.client.ClientBuilder;  
 import javax.ws.rs.client.Entity;  
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;  
 import javax.ws.rs.core.MediaType;  
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;  
   
 
+
+
+
+
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;  
   
+import org.glassfish.jersey.SslConfigurator;
 import org.ylxz.rest.bean.User;  
   
    
@@ -27,32 +36,74 @@ public class ASAPIMUserClient {
 	//tmp token: 79d8bda8c598f69153859b0eb6a026
     private static String serverUri = "http://localhost:9090/RestDemo/rest"; 
     private static String asApimUsersUri = "http://10.25.31.83:8280/users/1.0.0"; 
+    private static String tempToken = "dd475248e67de4362f96adf38a97530";
     
     /** 
      * @param args 
      */  
     public static void main(String[] args) {
-    	getUserById();
+    	//getToken();
     	/*
-        addUser();
-        addUser();
-        getAllUsers();  
-        updateUser();  
-        getUserById();  
-        getAllUsers();  
-        delUser();  
-        getAllUsers();  
         */
+    	getAllUsers();
+        addUser();
+        getUserById();
+        updateUser();
+        getUserById();
+        delUser();
+        getUserById();
+        getAllUsers();
     }  
+    
+    //TODO: the file location is fake, error
+    private static void getToken() {
+    	System.out.println("Entry of getToken");
+    	//https://www.base64encode.org/
+    	//key:secret is YmjWpvFL7AUrmdO5WDkfXlDcuV0a:XRNtSEJTC3vC2uaTWU7PfptSuZoa
+    	//base64d is : WW1qV3B2Rkw3QVVybWRPNVdEa2ZYbERjdVYwYTpYUk50U0VKVEMzdkMydWFUV1U3UGZwdFN1Wm9h
+    	//curl -k -d "grant_type=client_credentials" -H "Authorization: Basic WW1qV3B2Rkw3QVVybWRPNVdEa2ZYbERjdVYwYTpYUk50U0VKVEMzdkMydWFUV1U3UGZwdFN1Wm9h, Content-Type: application/x-www-form-urlencoded" https://10.25.31.83:8243/token
+    		
+    	SslConfigurator sslConfig = SslConfigurator.newInstance()
+    	        .trustStoreFile("./truststore_client")
+    	        .trustStorePassword("secret-password-for-truststore")
+    	        .keyStoreFile("./keystore_client")
+    	        .keyPassword("secret-password-for-keystore");
+    	 
+    	SSLContext sslContext = sslConfig.createSSLContext();
+    	Client client = ClientBuilder.newBuilder().sslContext(sslContext).build().register(JacksonJsonProvider.class);
+    	
+            WebTarget target = client.target("https://10.25.31.83:8243/token");
+            //MultivaluedMap<String, Object> headerMap = new MultivaluedMap<>(String, Object);
+            //headerMap.add("Authorization", "Bearer cf228e2d9a418d5241569b1447c3a976");
+            //headerMap.add("Content-Type", "application/x-www-form-urlencoded");
+            Invocation.Builder invocationBuilder = target.request();
+            invocationBuilder.header("Authorization", "Bearer WW1qV3B2Rkw3QVVybWRPNVdEa2ZYbERjdVYwYTpYUk50U0VKVEMzdkMydWFUV1U3UGZwdFN1Wm9h");
+            invocationBuilder.header("Content-Type", "application/x-www-form-urlencoded");
+            
+            Response response = invocationBuilder.get();
+            
+            if (response.getStatus()!=200 && response.getStatus()!=204) {
+           	 System.out.println(response.getStatus());
+            }
+            response.close();  
+    }
+    
     /** 
      * 添加用户 
      */  
      private static void addUser() {  
-         System.out.println("****增加用户addUser****");  
+         System.out.println("To add User 006 Susan 21");  
          User user = new User("006","Susan","21");    
          Client client = ClientBuilder.newClient();  
-         WebTarget target = client.target(serverUri + "/users");  
-         Response response = target.request().buildPost(Entity.entity(user, MediaType.APPLICATION_XML)).invoke();  
+         WebTarget target = client.target(asApimUsersUri);  
+         
+         Invocation.Builder invocationBuilder = target.request();
+         invocationBuilder.header("Authorization", "Bearer "+tempToken);
+         Response response = invocationBuilder.buildPost(Entity.entity(user, MediaType.APPLICATION_XML)).invoke();
+
+         if (response.getStatus()!=200 && response.getStatus()!=204) {
+        	 System.out.println(response.getStatus());
+         }
          response.close();  
     }  
        
@@ -60,10 +111,15 @@ public class ASAPIMUserClient {
      * 删除用户 
      */  
      private static void delUser() {  
-         System.out.println("****删除用户****");  
+         System.out.println("To delete User 006 Susan");  
          Client client = ClientBuilder.newClient();  
-         WebTarget target = client.target(serverUri + "/users/006");  
-         Response response = target.request().delete();  
+         WebTarget target = client.target(asApimUsersUri + "/006");  
+         Invocation.Builder invocationBuilder = target.request();
+         invocationBuilder.header("Authorization", "Bearer "+tempToken);
+         Response response = invocationBuilder.delete();
+         if (response.getStatus()!=200 && response.getStatus()!=204) {
+        	 System.out.println(response.getStatus());
+         }
          response.close();  
     }  
        
@@ -72,46 +128,62 @@ public class ASAPIMUserClient {
      * 修改用户 
      */  
      private static void updateUser() {  
-         System.out.println("****修改用户updateUser****");  
+         System.out.println("To update user susan from 21 to 33");  
          User user = new User("006","Susan","33");    
          Client client = ClientBuilder.newClient();  
-         WebTarget target = client.target(serverUri + "/users");  
-         Response response = target.request().buildPut( Entity.entity(user, MediaType.APPLICATION_XML)).invoke();  
+         WebTarget target = client.target(asApimUsersUri);  
+         
+         Invocation.Builder invocationBuilder = target.request();
+         invocationBuilder.header("Authorization", "Bearer "+tempToken);
+         Response response = invocationBuilder.buildPut(Entity.entity(user, MediaType.APPLICATION_XML)).invoke();
+         //There is something error in the put
+         if (response.getStatus()!=200 && response.getStatus()!=204) {
+        	 System.out.println(response.getStatus());
+         }
+         
          response.close();  
-    }  
+
+     }  
     /** 
      * 根据id查询用户 
      */  
      private static void getUserById() {  
-         System.out.println("****根据id查询用户****");  
+         System.out.println("****GetUserById*****");  
          Client client = ClientBuilder.newClient().register(JacksonJsonProvider.class);// 注册json 支持  
-         WebTarget target = client.target(asApimUsersUri + "/007");
-         //Add header as curl -k -H "Authorization :Bearer 79d8bda8c598f69153859b0eb6a026" http://10.25.31.83:8280/users/1.0.0/007
-         
-         //Response response = target.request().get();
-         /*
-         */
-         
+         WebTarget target = client.target(asApimUsersUri + "/006");
          Invocation.Builder invocationBuilder = target.request();
-         invocationBuilder.header("Authorization", "Bearer cf228e2d9a418d5241569b1447c3a976");
+         invocationBuilder.header("Authorization", "Bearer "+tempToken);
          Response response = invocationBuilder.get();
          
-         User user = response.readEntity(User.class);  
-         System.out.println(user.getUserId() + user.getUserName()  +  user.getAge());  
+         User user = response.readEntity(User.class);
+         if (null!=user) {
+        	 System.out.println(user.getUserId() + user.getUserName()  +  user.getAge());
+         }  else {
+        	 System.out.println("No user found.");
+         }
+         if (response.getStatus()!=200 && response.getStatus()!=204) {
+        	 System.out.println(response.getStatus());
+         }
          response.close();  
     }  
     /** 
      * 查询所有用户 
      */  
      private static void getAllUsers() {  
-         System.out.println("****查询所有getAllUsers****");  
+         System.out.println("*******getAllUsers****");  
            
          Client client = ClientBuilder.newClient();  
   
-         WebTarget target = client.target(serverUri + "/users");  
-         Response response = target.request().get();  
+         WebTarget target = client.target(asApimUsersUri);  
+         Invocation.Builder invocationBuilder = target.request();
+         invocationBuilder.header("Authorization", "Bearer "+tempToken);
+         Response response = invocationBuilder.get();
+         
 		String value = response.readEntity(String.class);  
 		System.out.println(value);  
+        if (response.getStatus()!=200 && response.getStatus()!=204) {
+       	 System.out.println(response.getStatus());
+        }
 		response.close();  //关闭连接  
      }  
        
