@@ -1,0 +1,330 @@
+http://open.taobao.com/doc2/detail.htm?articleId=118&docType=1&treeId=null
+OAuth授权详情介绍的好文
+
+1. redirect_uri指的是应用发起请求时，所传的回调地址参数，在用户授权后应用会跳转至redirect_uri。
+callback指的是应用注册时填写的回调地址链接 或者网站接入时所验证的域名地址。
+相关的规则是：
+（1）对于Server-side flow，redirect_uri是必选参数，并且要求redirect_uri与callback的顶级域名一致。
+（2）对于Client-side flow，redirect_uri是可选参数，如果传了redirect_uri，则相应的中间参数会返回到redirect_uri，并且要求redirect_ur与callback的顶级域名一致，如果没有传redirect_uri，则不做校验，返回相应的中间参数到淘宝默认授权返回页面。
+（3）在不可预知错误的情况下，返回到默认错误页面。
+ 
+2. View参数为以下可选值：
+
+view参数可选值有：web、tmall、wap，其中：
+Web对应普通的PC端（淘宝logo）浏览器页面样式。
+Tmall对应天猫的浏览器页面样式。
+Wap对应无线端的浏览器页面样式。
+3.Access Token
+
+Access Token即用户授权后颁发的session key
+
+Client side 
+https://oauth.taobao.com/authorize?response_type=token&client_id=12304977&redirect_uri=http://www.oauth.net/2/ 
+&state=1212 
+
+zyjhcp1221
+yubaobao1221
+
+TBD:
+1. 把分布式事件通知，以消息队列RabbitQueue和观察者模式结合起来简单实现
+包括有不同的模块的事件源定义，这里是按平台建立不同的queue
+A. 这是个简单的异步调用流程
+然后比如应用A1里为用户U1发起了一个异步调用并注册自己的回调为CB1，开放接口平台转发这个调用到平台P1，传回了一个EventID, EID1。
+开放接口平台只有去平台P1的Queue里不停的取P1的Event，当发现EID1之后，调用CB1。
+
+B. 然后比如应用A2去订阅者Portal里订阅了一个事件通知消息，比如勾选了一个车联平台的车内温度过高的一个事件。
+当手机用户U2登录应用A2时，先提示用户授权A2有车联平台的权限。用户登录后，A2去一个按事先认证流程指定的认证通过后的一个地址去取到code或者直接是Access Token.
+拿到这个Access token之后，向ASOP（阿里上汽开放平台）申请注册此用户车(VIN V2)里面的一个温度过高的消息推送服务，比如用sdk写一段代码：
+ASOPClient..
+Configuration conf = new Configuration(appkey,secret,null);
+TopCometStream stream = new TopCometStreamFactory(conf).getInstance();
+stream.setConnectionListener(ConnectionLifeCycleListener接口的实现类);
+stream.setMessageListener(TopCometMessageListener接口的实现类);
+stream.start();
+然后自己在TopCometMessageListener的实现类里去实现某个方法
+比如OnMsgHandler。
+然后呢，ASOP需要在与车联平台的queue里去监听用户U2相关的车内温度过高的Event，并在服务端建立一个Queue，不停的往里发相关消息。
+并有一定的检测消息队列是否健康的能力，比如堆积过多，就自动断掉这个长连接等。
+
+介绍RabbitMQ
+http://blog.csdn.net/sdyy321/article/details/9241445
+gitHub
+https://github.com/sdyy321/rabbitmq-client
+
+浅显的原理介绍
+eventType, eventID, userID
+
+TBD:
+1. 各个模块的细化图
+2. 加一个ZXQ token的时序图
+
+OAuth说白了就是用户用User和Password从OAuth服务器 asop authorize，比如同一账号平台返回一个Code，这里面有用户数据的访问权限的信息。
+然后App通过这个code，加上app网关一开始分配的appkey, appsecret去 asop token，返回一个OAuth token.
+今后的应用都通过这个OAuth token，通过网关订阅鉴权，到需要后台用户鉴权时，后台的统一账号服务会从Oauth中反向生成code，也就是那些权限信息。
+
+20151122 TBD:
+1. 就用那张模块大图，把各个小模块的子项放进去，把需要开发的部分用橙色标注即可。
+2. 加上之前得到的一些数据表结构图，从设计文档里拷贝过去粘帖起来。
+
+我是新来的陈凌，来自湖北武汉，很高兴加入云平台开发团队，现在邹盛享小组。
+之前在上海惠普OSS部门工作，主要负责服务激活和新技术的调研。
+希望能在这个激情四射的团队为我们的产品和大家一起奋斗。
+
+ICall POI 下发
+BCall
+
+URI
+call -> 
+
+开放Sample
+SDK
+
+URI
+Access token
+HTTPClient
+URI + Access Token
+
+CC
+运维监控
+
+PPT思路
+1. 注册
+2. 调用
+	同步
+	异步
+
+REST+REST
+Dubbo 负载
+
+20151123 TBD
+1. SDK sample
+2. Dubbo转Rest
+3. Dubbo负载
+4. 统一账号鉴权
+
+[INFO] WSO2 API Manager - Aggregator Module .............. SUCCESS [  1.562 s]
+[INFO] WSO2 API Manager - Styles Parent .................. SUCCESS [  0.109 s]
+[INFO] WSO2 API Manager - Styles ......................... SUCCESS [  2.997 s]
+[INFO] WSO2 Stratos  API Manager - UI styles ............. SUCCESS [  6.208 s]
+[INFO] WSO2 Stratos  API Manager - Dashboard UI .......... SUCCESS [  2.829 s]
+[INFO] WSO2 AM - Login User Interface .................... SUCCESS [  2.831 s]
+[INFO] WSO2 API Manager - Features Parent ................ SUCCESS [  0.094 s]
+[INFO] WSO2 API Manager - Features Aggregator Module ..... SUCCESS [  0.093 s]
+[INFO] WSO2 API Manager - Styles Features ................ SUCCESS [  1.505 s]
+[INFO] WSO2 Stratos  API Manager - Features Aggregator Module  SUCCESS [  0.078 s]
+[INFO] WSO2 Stratos  API Manager - Style Features ........ SUCCESS [  2.029 s]
+[INFO] WSO2 Stratos  API Manager - Utils Features ........ SUCCESS [  2.278 s]
+[INFO] WSO2 Stratos  API Manager - Dashboard UI Features . SUCCESS [  2.282 s]
+[INFO] WSO2 Stratos  API Manager - Deployment Features ... SUCCESS [  1.842 s]
+[INFO] WSO2 API Manager - P2 Profile Generation Parent ... SUCCESS [  0.078 s]
+[INFO] WSO2 API Manager - P2 Profile Generation .......... FAILURE [04:09 min]
+Downloading: http://maven.wso2.org/nexus/content/groups/wso2-public/org/wso2/carbon/wso2carbon-core/4.4.1/wso2carbon-core-4.4.1.zip
+
+[INFO] Downloading: http://maven.wso2.org/nexus/content/repositories/snapshots/org/wso2/carbon/apimgt/org.wso2.carbon.forum.server.feature/2.0.1-SNAPSHOT/org.wso2.carbon.forum.server.feature-2.0.1-SNAPSHOT.zip
+
+Then, install it using the command: 
+    mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.forum.server.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=/path/to/file
+
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.forum.server.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\forum\org.wso2.carbon.forum.server.feature\target\org.wso2.carbon.forum.server.feature-2.0.2-SNAPSHOT.zip
+	
+Alternatively, if you host your own repository you can deploy the file there: 
+    mvn deploy:deploy-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.forum.server.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=/path/to/file -Durl=[url] -DrepositoryId=[id]
+
+
+  org.wso2.carbon.apimgt:org.wso2.carbon.forum.server.feature:zip:2.0.1-SNAPSHOT
+  
+No marketplace entries found to handle maven-scr-plugin:1.7.2:scr in Eclipse.  Please see Help for more information.
+No marketplace entries found to handle maven-antrun-plugin:1.7:run in Eclipse.
+No marketplace entries found to handle maven-antrun-plugin:1.1:run in Eclipse.
+No marketplace entries found to handle axis2-java2wsdl-maven-plugin:1.402:java2wsdl in Eclipse.
+
+Try downloading the file manually from the project website.
+
+Then, install it using the command: 
+    mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.forum.server.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=/path/to/file
+
+Alternatively, if you host your own repository you can deploy the file there: 
+    mvn deploy:deploy-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.forum.server.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=/path/to/file -Durl=[url] -DrepositoryId=[id]
+
+	[INFO] WSO2 API Manager - P2 Profile Generation .......... FAILURE [  8.554 s]
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.forum.server.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\forum\org.wso2.carbon.forum.server.feature\target\org.wso2.carbon.forum.server.feature-2.0.2-SNAPSHOT.zip
+
+org.wso2.carbon.apimgt.feature-2.0.2-SNAPSHOT.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\apimgt\org.wso2.carbon.apimgt.feature\target\org.wso2.carbon.apimgt.feature-2.0.2-SNAPSHOT.zip
+
+filename: org.wso2.carbon.apimgt.authenticator.oidc.feature-2.0.2-SNAPSHOT.zip
+org.wso2.carbon.apimgt:org.wso2.carbon.apimgt.authenticator.oidc.feature:2.0.1-SNAPSHOT
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.authenticator.oidc.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=
+
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.authenticator.oidc.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\oidc-authenticator\org.wso2.carbon.apimgt.authenticator.oidc.feature\target\org.wso2.carbon.apimgt.authenticator.oidc.feature-2.0.2-SNAPSHOT.zip
+
+org.wso2.carbon.apimgt.hostobjects.oidc.feature-2.0.2-SNAPSHOT.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.hostobjects.oidc.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\oidc-authenticator\org.wso2.carbon.apimgt.hostobjects.oidc.feature\target\org.wso2.carbon.apimgt.hostobjects.oidc.feature-2.0.2-SNAPSHOT.zip
+
+org.wso2.carbon.apimgt.authenticator.oidc.server.feature-2.0.2-SNAPSHOT.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.authenticator.oidc.server.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\oidc-authenticator\org.wso2.carbon.apimgt.authenticator.oidc.server.feature\target\org.wso2.carbon.apimgt.authenticator.oidc.server.feature-2.0.2-SNAPSHOT.zip
+
+org.wso2.carbon.apimgt.authenticator.oidc.ui.feature-2.0.2-SNAPSHOT.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.authenticator.oidc.ui.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\oidc-authenticator\org.wso2.carbon.apimgt.authenticator.oidc.ui.feature\target\org.wso2.carbon.apimgt.authenticator.oidc.ui.feature-2.0.2-SNAPSHOT.zip
+
+org.wso2.carbon.apimgt.startup.publisher.feature-2.0.2-SNAPSHOT
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.startup.publisher.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\apimgt\org.wso2.carbon.apimgt.startup.publisher.feature\target\org.wso2.carbon.apimgt.startup.publisher.feature-2.0.2-SNAPSHOT.zip
+
+org.wso2.carbon.apimgt.interceptor.feature-2.0.2-SNAPSHOT
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.interceptor.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\apimgt\org.wso2.carbon.apimgt.interceptor.feature\target\org.wso2.carbon.apimgt.interceptor.feature-2.0.2-SNAPSHOT.zip
+
+org.wso2.carbon.apimgt.store.feature-2.0.2-SNAPSHOT
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.store.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\apimgt\org.wso2.carbon.apimgt.store.feature\target\org.wso2.carbon.apimgt.store.feature-2.0.2-SNAPSHOT.zip
+
+org.wso2.carbon.apimgt.publisher.feature-2.0.2-SNAPSHOT
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.publisher.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\apimgt\org.wso2.carbon.apimgt.publisher.feature\target\org.wso2.carbon.apimgt.publisher.feature-2.0.2-SNAPSHOT.zip
+
+org.wso2.carbon.apimgt.gateway.feature-2.0.2-SNAPSHOT
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.gateway.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\apimgt\org.wso2.carbon.apimgt.gateway.feature\target\org.wso2.carbon.apimgt.gateway.feature-2.0.2-SNAPSHOT.zip
+
+org.wso2.carbon.apimgt.core.feature-2.0.2-SNAPSHOT
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.core.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-master\features\apimgt\org.wso2.carbon.apimgt.core.feature\target\org.wso2.carbon.apimgt.core.feature-2.0.2-SNAPSHOT.zip
+
+All 2.0.1*.zip
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+org.wso2.apimgt.publisher.category.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.apimgt.publisher.category.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\categories\publisher\target\org.wso2.apimgt.publisher.category.feature-2.0.1.zip
+
+org.wso2.apimgt.store.category.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.apimgt.store.category.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\categories\store\target\org.wso2.apimgt.store.category.feature-2.0.1.zip
+
+org.wso2.carbon.forum.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.forum.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\forum\org.wso2.carbon.forum.feature\target\org.wso2.carbon.forum.feature-2.0.1.zip
+
+org.wso2.carbon.forum.server.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.forum.server.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\forum\org.wso2.carbon.forum.server.feature\target\org.wso2.carbon.forum.server.feature-2.0.1.zip
+-----------------------------------------------------------------
+
+org.wso2.carbon.apimgt.hostobjects.oidc.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.hostobjects.oidc.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\oidc-authenticator\org.wso2.carbon.apimgt.hostobjects.oidc.feature\target\org.wso2.carbon.apimgt.hostobjects.oidc.feature-2.0.1.zip
+
+org.wso2.carbon.apimgt.authenticator.oidc.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.authenticator.oidc.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\oidc-authenticator\org.wso2.carbon.apimgt.authenticator.oidc.feature\target\org.wso2.carbon.apimgt.authenticator.oidc.feature-2.0.1.zip
+
+org.wso2.carbon.apimgt.authenticator.oidc.server.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.authenticator.oidc.server.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\oidc-authenticator\org.wso2.carbon.apimgt.authenticator.oidc.server.feature\target\org.wso2.carbon.apimgt.authenticator.oidc.server.feature-2.0.1.zip
+
+org.wso2.carbon.apimgt.authenticator.oidc.ui.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.authenticator.oidc.ui.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\oidc-authenticator\org.wso2.carbon.apimgt.authenticator.oidc.ui.feature\target\org.wso2.carbon.apimgt.authenticator.oidc.ui.feature-2.0.1.zip
+
+org.wso2.carbon.apimgt.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.feature\target\org.wso2.carbon.apimgt.feature-2.0.1.zip
+
+org.wso2.carbon.apimgt.startup.publisher.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.startup.publisher.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.startup.publisher.feature\target\org.wso2.carbon.apimgt.startup.publisher.feature-2.0.1.zip
+
+org.wso2.carbon.apimgt.interceptor.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.interceptor.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.interceptor.feature\target\org.wso2.carbon.apimgt.interceptor.feature-2.0.1.zip
+
+org.wso2.carbon.apimgt.store.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.store.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.store.feature\target\org.wso2.carbon.apimgt.store.feature-2.0.1.zip
+
+org.wso2.carbon.apimgt.publisher.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.publisher.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.publisher.feature\target\org.wso2.carbon.apimgt.publisher.feature-2.0.1.zip
+
+org.wso2.carbon.apimgt.gateway.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.gateway.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.gateway.feature\target\org.wso2.carbon.apimgt.gateway.feature-2.0.1.zip
+
+org.wso2.carbon.apimgt.core.feature-2.0.1
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.core.feature -Dversion=2.0.2-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.core.feature\target\org.wso2.carbon.apimgt.core.feature-2.0.1
+
+
+*********************************
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.hostobjects.oidc.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\oidc-authenticator\org.wso2.carbon.apimgt.hostobjects.oidc.feature\target\org.wso2.carbon.apimgt.hostobjects.oidc.feature-2.0.1.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.authenticator.oidc.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\oidc-authenticator\org.wso2.carbon.apimgt.authenticator.oidc.feature\target\org.wso2.carbon.apimgt.authenticator.oidc.feature-2.0.1.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.authenticator.oidc.server.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\oidc-authenticator\org.wso2.carbon.apimgt.authenticator.oidc.server.feature\target\org.wso2.carbon.apimgt.authenticator.oidc.server.feature-2.0.1.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.authenticator.oidc.ui.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\oidc-authenticator\org.wso2.carbon.apimgt.authenticator.oidc.ui.feature\target\org.wso2.carbon.apimgt.authenticator.oidc.ui.feature-2.0.1.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.feature\target\org.wso2.carbon.apimgt.feature-2.0.1.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.startup.publisher.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.startup.publisher.feature\target\org.wso2.carbon.apimgt.startup.publisher.feature-2.0.1.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.interceptor.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.interceptor.feature\target\org.wso2.carbon.apimgt.interceptor.feature-2.0.1.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.store.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.store.feature\target\org.wso2.carbon.apimgt.store.feature-2.0.1.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.publisher.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.publisher.feature\target\org.wso2.carbon.apimgt.publisher.feature-2.0.1.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.gateway.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.gateway.feature\target\org.wso2.carbon.apimgt.gateway.feature-2.0.1.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.core.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.core.feature\target\org.wso2.carbon.apimgt.core.feature-2.0.1.zip
+
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.forum.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\forum\org.wso2.carbon.forum.feature\target\org.wso2.carbon.forum.feature-2.0.1.zip
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.forum.server.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\forum\org.wso2.carbon.forum.server.feature\target\org.wso2.carbon.forum.server.feature-2.0.1.zip
+----------------
+
+The installable unit org.wso2.carbon.apimgt.feature.group/2.0.1.SNAPSHOT has not been found.
+Application failed, log file location: C:\Users\foplj\.m2\repository\org\eclipse\tycho\tycho-p2-runtime\0.13.0\eclipse\configuration\1448456138558.log
+
+D:\workspace\wso2\product-apim-master\modules\p2-profile\product\pom.xml has a bug
+
+The installable unit org.wso2.carbon.apimgt.feature/2.0.1.SNAPSHOT has not been found.
+Application failed, log file location: C:\Users\foplj\.m2\repository\org\eclipse\tycho\tycho-p2-runtime\0.13.0\eclipse\configuration\1448457615899.log
+
+mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.apimgt.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=D:\workspace\wso2\carbon-apimgt-2.0.1\features\apimgt\org.wso2.carbon.apimgt.feature\target\org.wso2.carbon.apimgt.feature-2.0.1-SNAPSHOT.zip
+org.wso2.carbon.apimgt:org.wso2.carbon.apimgt.feature:${apimgt.feature.version}
+
+大概明白了，就是这边生成的是2.0.1.zip，但是那边要的是2.0.1-snapshot.zip
+
+https://github.com/wso2/carbon-apimgt/tree/carbon-apimgt-v1.9.1
+You don't need to download the carbon-kernel just to build the API Manager. Carbon-Kernel is the core module/platform for all of the WSO2 products.
+
+Please follow the steps to build the API Manager from source code.
+
+carbon-apimgt repo has all the components related to API Manager which are reused by other WSO2 products. You have to checkout carbon-apimgt-v1.9.1 tag for API Manager 1.9.1
+
+Build this component repo using mvn clean install
+
+product-apim repo has the neccessary artifacts for the API Manager product. For API Manager 1.9.1, you have to checkout v1.9.1 tag
+
+Build the repo using mvn clean install
+
+https://docs.wso2.com/display/AM191/Installation+Prerequisites
+Maven 3.0.xml
+
+20151128
+todo:
+
+[2015-11-29 20:11:36,400]  WARN - APIAuthenticationHandler API authentication failure due to Missing Credentials
+
+20151130
+做个最小集合的API Manager的工作量评估
+
+AdminDemoApp
+production
+key: 2dcsMOJUkzNX3QN7gQkbyi30fWIa
+secret: fvxSoaf_OH3DrMncq7UJ0ZjlKowa
+token: fc4fee3d30f53a1aa5e4388227265dd
+
+GrantType: Password
+GrantType: Client Credentials
+
+WeatherAPI - 1.0.0
+
+Visibility	Public
+Context	/weather/1.0.0
+Production URL	http://api.openweathermap.org/data/2.5/weather
+Sandbox URL	http://api.openweathermap.org/data/2.5/weather
+Date Last Updated	2015/11/29 下午7:59:28
+Tier Availability	Unlimited
+Default API Version	None
+Tags	weather
+Published Environments	Production and Sandbox
+
+https://10.25.31.83:8243/weather/1.0.0
+
+http://nuwanzone.blogspot.com/2015/10/getting-access-tokens-for-wso2-api.html
+讲述以第三方作为identity server，比如facebook
+
+https://docs.wso2.com/display/APICloud/Published+APIs
+
+三种认证模式
+https://docs.wso2.com/pages/viewpage.action?pageId=45951035
+
+暴露出来的API
+https://docs.wso2.com/display/APICloud/Tutorials
+https://docs.wso2.com/display/APICloud/Invoke+an+API+using+cURL
+
+-k/--insecure 允许不使用证书到SSL站点
+-H/--header <line>自定义头信息传递给服务器
+
+日志 反欺诈
+https://docs.wso2.com/display/APICloud/Tutorials

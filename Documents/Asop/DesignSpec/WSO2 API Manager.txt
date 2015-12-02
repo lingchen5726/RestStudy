@@ -1,0 +1,655 @@
+C:\Java\jdk1.7.0_71
+Java
+Ant
+Maven
+Active-mq
+	http://www.itxxz.com/ActiveMQ/2015/0225/647.html
+
+wso2
+lingchen5726@qq.com
+uXr9yN6jXN 
+
+download
+http://wso2.com/products/enterprise-service-bus/
+
+http://wso2.com/products/developer-studio/#download-win-64
+
+首先来看本地通讯的情况，应用程序A和应用程序B运行于同一系统A，它们之间可以借助消息队列技术进行彼此的通讯：应用程序A向队列1发送一条信息，而当应用程序B需要时就可以得到该信息。
+其 次是远程通讯的情况，如果信息传输的目标改为在系统B上的应用程序C，这种变化不会对应用程序A产生影响，应用程序A向队列2发送一条信息，系统A的MQ 发现Q2所指向的目的队列实际上位于系统B，它将信息放到本地的一个特殊队列－传输队列(Transmission Queue)。我们建立一条从系统A到系统B的消息通道，消息通道代理将从传输队列中读取消息，并传递这条信息到系统B，然后等待确认。只有MQ接到系统 B成功收到信息的确认之后，它才从传输队列中真正将该信息删除。如果通讯线路不通，或系统B不在运行，信息会留在传输队列中，直到被成功地传送到目的地。 这是MQ最基本而最重要的技术--确保信息传输，并且是一次且仅一次(once-and-only-once)的传递。
+MQ提供了用于应用集成的松耦合的连接方法，因为共享信息的应用不需要知道彼此物理位置（网络地址）；不需要知道彼此间怎样建立通信；不需要同时处于运行状态；不需要在同样的操作系统或网络环境下运行。
+
+Creating Web Services Applications with IntelliJ IDEA
+http://www.jetbrains.com/idea/docs/Web_Services_with_IntelliJ_IDEA.pdf
+
+xwiki和共享目录，由10.25.3.104迁移到10.25.20.105，端口和访问方式不变
+
+add followings in setclasspath.bat in tomcat\xx\bin
+set JAVA_HOME=C:\Java\jdk1.7.0_71
+set JRE_HOME=%JAVA_HOME%
+
+https://jersey.java.net/documentation/latest/getting-started.html
+
+Could not calculate build plan: Plugin org.apache.maven.plugins:maven-resources-plugin:2.7 
+or one of its dependencies could not be resolved: Failed to read artifact descriptor for org.apache.maven.plugins:maven-resources-plugin:jar:2.7 Plugin 
+
+http://blog.csdn.net/kkkloveyou/article/details/21391033
+一、二、三 慢慢学，不急
+https://jersey.java.net/download.html
+
+http://blog.csdn.net/kkkloveyou/article/details/38640903
+
+http://localhost:9090/RestDemo/rest/hello
+http://localhost:9090/RestDemo/rest/hello/yu
+
+http://localhost:9090/RestDemo/rest/users
+http://localhost:9090/RestDemo/rest/users/getUserXml
+http://localhost:9090/RestDemo/rest/users/getUserJson
+
+buildPath里只能加jar,而不能加jar.zip
+WebContent里打包部署上去的那个也不能是jar.zip，必须是jar包
+{"userId":"005","userName":"JSON","age":"27"}
+
+URI的设计，最好是可以支持回退的，比如/conversations/{id}，把id去掉之后，/conversations依然是可用的URI。
+RESTful web service 理解的不错的文章：
+我想有很多人弄不清楚URI和URL之间的区别，有人甚至觉得这是同一概念的不同表述而已。一个URL肯定是一个URI，但是一个URI并不一定是一个URL，U
+RL仅仅是URI的一种表现形式而已。两者的差异其实可以直接从其命名来区分，
+URI是Web资源的标志符，所以只要求它具有“标识性”即可；
+URL全称为“统一资源定位符（Uniform Resource Locator）”，所以除了标识性之外，它还具有定位的功能，用于描述Web资源所在的位置。
+URL不仅仅用于定位目标资源所在的位置，还指名了获取资源所采用的协议，一个完整的URL包含协议名称、主机名称（IP地址或者域名）、端口号、路径和查询字符串5个部分。
+比如对于“ http://www.artech.com:8080/images/photo.png?size=small”这样一个URL，上述的5个部分分别是“http”、“www.artech.com”、“8080”、“/images/photo.png”和“?size=small”。
+
+https://docs.wso2.com/display/ESB490/Creating+APIs
+https://docs.wso2.com/display/ESB490/Deleting+an+API
+https://docs.wso2.com/display/ESB490/Securing+APIs
+https://docs.wso2.com/display/ESB490/Exposing+ESB+REST+API+via+API+Manager
+
+API Manager
+http://blog.csdn.net/cn_yh/article/details/42918385
+原文： https://docs.wso2.com/display/AM180/Key+Concepts
+
+H2数据库
+下载安装WSO2 & WSO2 API Manager
+Run samples
+https://docs.wso2.com/display/ESB481/Setting+Up+the+ESB+Samples
+
+APIM todo
+1. 安装WSO2上的例子
+	WSO2esb不够	
+		https://localhost:9443/carbon
+	下载WSO2APIM，直接运行bin下的wso2server.bat
+		API Publisher web application
+			http://localhost:9763/publisher
+		API Store web
+			http://localhost:9763/store
+		记得login
+	在线文档
+		非常好的文档
+		https://docs.wso2.com/display/AM190/WSO2+API+Manager+Documentation
+		http://wso2.com/support
+		http://wso2.com/products/api-manager
+		参与贡献者，顺便看看有没有现成的异步和事件通知部分的实现
+		https://docs.wso2.com/display/DAS300/Get+Involved
+	网上中文例子：
+		C:\work\ICar\WSO2APIM\wso2_API_Manager_使用示例V1.0.docx
+	已知问题：
+		https://wso2.org/jira/issues/?filter=12237
+	bugReport
+		https://wso2.org/jira/browse/APIMANAGER
+	5. To compile and run the sample clients, an Ant version is required. Ant 1.7.0
+   version is recommended
+6. To build WSO2 API Manager from the Source distribution, it is necessary that you have
+   JDK 1.6.x version and Maven 3.0.0 or later
+	
+2. 分析目前的需求与WSO2能力之间的gap
+	参考http://open.taobao.com/
+	尤其是里面的
+		异步API使用说明
+			主要用于有Gb级数据查询之类的请求，可以大幅降低网络流量和请求次数，请求发起者主要采用轮询或者是http长连接来获得服务器端新建的任务ID的执行情况及结果。
+			客户端普通的调用两次，需要下载的可能在第二次里获得一个下载地址，然后在第三个请求中去做这个下载动作。但是这样的发布就牵涉到SDK级别的jar包了。
+			http://open.taobao.com/doc2/detail.htm?articleId=30&docType=1&treeId=null
+			1. 提交任务： taobao.topats.trades.sold.get
+			2. 获取任务执行情况 定期调用 taobao.topats.result.get 或创建一个长连接，获得通知后再调用 taobao.topats.trades.sold.get
+			3. 如果需要下载，就从2里面拿到的下载地址去下载
+		订单同步服务使用
+			http://open.taobao.com/doc2/detail.htm?articleId=101587&docType=1&treeId=2
+		消息服务使用介绍
+			主要是订阅FromServer和ToServer两种消息，主要是通过websocket实现
+			http://open.taobao.com/doc2/detail.htm?articleId=101663&docType=1&treeId=2
+			这个是有关ws(WebSocket)协议的一些介绍，主要是增强了服务端消息推送的能力
+			http://blog.sina.com.cn/s/blog_acddf95d0101beuj.html
+			这个是比较新的如何订阅消息的文档
+			http://open.taobao.com/doc2/detail.htm?articleId=101663&docType=1&treeId=2
+				具体的OAuth用户授权数据访问流程：
+				http://open.taobao.com/doc2/detail?spm=0.0.0.0.nAgP2D&docType=1&articleId=102635
+				
+		主动通知
+			http://open.taobao.com/doc2/detail.htm?articleId=101619&docType=1&treeId=null
+			简单的说就是APP开发者订阅通知消息类型（比如淘宝的交易和退款），然后需要先获得用户（卖家）的授权允许即取得SessionKey（或Access Token）才能接收用户的数据。
+			taobao.increment.customer.permit
+			http://stream.api.taobao.com/stream
+			客户端发起一个HTTP POST请求，TOP服务端将保持住这个请求24小时。
+				好处：
+					开发者可以基于数据的实时性到达，满足用户对数据苛刻的实时展示需求
+					目前有商品、退款、交易、酒店、机票等消息数据，随着开发者的需求增多，会开放出来更多的业务数据类型。方便开发者满足不同的用户需求。
+					可以指定需要那些用户的数据，也可以指定需要某个属性满足某种条件的数据（如只需要某些商品id变化的数据）。
+					同时官方提供了sdk，开发者只需要简单实现接口，处理业务数据。
+			实际代码：
+				jdk自带的HttpURLConnection，或者Apache的HttpClient 。另也可以使用我们的sdk(java sdk .net sdk)
+				app_key
+			
+			
+	a. 列表
+	b. 工作量评估
+3. 分析目前需求与APIM能力之间的gap
+	参看某个现成的xls
+	a. 列表
+	b. 工作量评估
+4. 设计文档
+	可以借鉴 http://blog.csdn.net/cn_yh/article/details/42918385
+	http://wso2.com/products/data-analytics-server/ 这里是BAM，DAS的一张图
+	有关BAM的一些部署问题 http://blog.csdn.net/vovo2008/article/details/12432655
+	WSO2 APIM 支持社区管理，和可扩展的流量路由
+	可参考http://kb.cnblogs.com/page/160240/ 开放平台架构师的介绍
+	集群的介绍
+	http://wenku.baidu.com/link?url=lImF0Cr4k_hu6ttQPkQXCinb9T-dEN0hQ4PYkYtwRtOy1fdKFoL1W2KkXUQhO9M1bjUTljCO_x0q_tXNjXQq3446rEVib4y-sx9QC_Ge87_
+	https://docs.wso2.com/display/CLUSTER420/Clustering+API+Manager
+	能够基于Swagger 规范生成API文档
+	通过安全访问标记语言（SAML）实现了单点登录支持
+	为键生成提供了扩展的OAuth支持
+	a. 模块图
+	b. 流程图
+5. 搭建WSO2源码
+	a. http://blog.csdn.net/cn_yh/article/details/39203897
+	b. 
+
+20151109
+done:
+1. 下载安装了基于WSO2 Carbon 的API Manager，分别尝试了一下publisher以及app store的两个web应用。
+2. 了解了一点点WSO2 的基本组件
+3. 了解了一下淘宝的开放平台，
+
+APIM 客户化
+C:\wso2\wso2am-1.9.1\repository\deployment\server\jaggeryapps\publisher\site\conf\locales
+
+20151110
+角色的重命名与删除，会自动影响到所有相关的用户及资源吗？
+删除试过，是的。
+
+在创建一个API并manage时，可以指定tier，就是SLA或者QoS之类的，throttling
+An API can be exposed over one or more tiers. The Gold, Silver and Bronze tiers allow 20, 5 and 1 request/s respectively per minute.
+
+一开始指定了get, post之后，再add，又删除这两个后，再点get，出不来了，只能选择add all 
+
+其实APIM 除了有Created,  published, deprecated, retired之外，还有prototyped和blocked.
+发布一个API意味着定义了一个API proxy在API网管的运行不见中，允许API被API网管之外的消费者应用调用。
+可以选择废弃之前发布的API版本,可以选择是否使已订阅的用户失效，让他们重新订阅。
+
+api store, Lingchen!234
+
+application有个callback URL好好看看
+This parameter can be used in the authorization code grant type when invoking an API. For example, assume that both the client and the API Gateway are run on the same server and the Authorization API URL is https://localhost:8243/authorize. query component: “response_type=code&client_id=&scope=PRODUCTION&redirect_uri=” and headers: Content-Type:application/x-www-form-urlencoded
+
+domain是个什么东西仍需查看。
+
+才看到第35页。
+明天继续写吧，困了。
+为什么没成功呢？换一个版本试试。
+
+去掉了param之后，一开始是个test1.html好像是没登录成功。
+
+HTTP method GET is not supported by this URL
+好像五种都不行，明天再去看看吧。
+
+除了domain，还有个scope是什么意思？
+http://localhost:9090/RestDemo/rest/users/getUserXml
+
+关于统计需要加装BAM，需要装MySQL
+business activity monitor 链接跳转到了http://wso2.com/products/data-analytics-server/
+wso2das-3.0.0
+BAM
+start das(BAM)
+start apim
+https://localhost:9443/admin-dashboard/site/pages/index.jag
+Add event receiver group
+jdbc:h2:../wso2bam-2.5.0/repository/database/WSO2AM_STATS_DB;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
+-> master-datasource
+old h2: wso2carbon
+目前用的内嵌的H2数据库，今后企业及部署一般采用MySQL
+https://docs.wso2.com/display/DAS300/Running+the+Product
+
+
+监控需求
+	Fault Sequence里如何实时显示一些红绿灯之类的东西。
+
+性能需求
+	1. Key generation会不会很耗时？
+	2. API网关的负荷如何解决？基础能力架构组，是否支持集群。 可以在上面建
+
+模块框架图
+	partially done.
+物理硬件图
+	done.
+流程逻辑图
+交互时序图
+	partially done.
+部署图
+	
+数据图解
+	USE 'WSO2AM_DB';
+	partially done.
+
+Error occurred while installing BAM Toolbox (Cause:org.apache.axis2.AxisFault: java.lang.NullPointerException)
+
+DAC: https://localhost:9446
+Error occurred while installing BAM Toolbox (Cause:org.apache.axis2.AxisFault: The service cannot be found for the endpoint reference (EPR) https://localhost:9446/services/BAMToolboxDepolyerService)
+
+2015-11-12 05:25:49,680 [-] [http-nio-9443-exec-2]  WARN add:jag Data Analyzer URL is empty. Toolbox will not be deployed.
+
+Data publishing currently disabled. To enable it, configure ServiceDataPublishing to 'enable' in $CARBON_HOME/repository/conf/etc/bam.xml.
+
+http://10.25.31.15:8082/login.jsp?jsessionid=7bb9e5879bae7e37718c5260f0dfe17f
+jdbc:h2:~/test
+sa
+
+<url>jdbc:h2:repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE</url>
+                    <username>wso2carbon</username>
+                    <password>wso2carbon</password>
+                    <driverClassName>org.h2.Driver</driverClassName>
+
+<url>jdbc:h2:repository/database/WSO2AM_DB;DB_CLOSE_ON_EXIT=FALSE</url>
+                    <username>wso2carbon</username>
+                    <password>wso2carbon</password>
+
+WSO2 APIM database connection:
+http://10.25.31.15:8082/login.do?jsessionid=7bb9e5879bae7e37718c5260f0dfe17f
+
+
+https://github.com/wso2/carbon4-kernel
+https://github.com/wso2/product-apim 
+	https://github.com/wso2/product-apim/tree/master
+https://github.com/wso2/carbon-apimgt/tags
+git clone https://github.com/wso2/developer-studio.git
+
+
+1.9.1
+mvn clean install -Dmaven.test.skip=true
+
+不允许管理，只做API gateway用的模式
+On Windows: <PRODUCT_HOME>\bin\wso2server.bat --run -DworkerNode
+
+<PRODUCT_HOME>/repository/conf/tomcat/carbon/WEB-INF/web.xml
+
+org.apache.maven.plugins:maven-resources-plugin:jar:2.7 error, need set proxy in the .m2/settings.xml
+how to fix it: http://stackoverflow.com/questions/12533885/could-not-calculate-build-plan-plugin-org-apache-maven-pluginsmaven-resources
+C:\Users\Robert\.m2\repository\org\apache\maven\plugins\maven-resources-plugin\2.7
+
+[INFO] Configured Artifact: org.wso2.carbon:wso2carbon-core:4.2.0:zip	
+[INFO] Downloading: http://maven.wso2.org/nexus/content/groups/wso2-public/org/wso2/carbon/wso2carbon-core/4.2.0/wso2carbon-core-4.2.0.zip
+缺省用的4.2.0
+
+BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 04:24 h
+[INFO] Finished at: 2015-11-14T09:55:35+08:00
+[INFO] Final Memory: 100M/286M
+
+将H2数据库换成MySQL
+conf/datasources/master-datasource里定义数据源
+            <jndiConfig>
+                <name>jdbc/WSO2CarbonDB</name>
+            </jndiConfig>
+在conf/registry.xml 指定这个jdbc/WSO2CarbonDB
+    <dbConfig name="wso2registry">
+        <dataSource>jdbc/WSO2CarbonDB</dataSource>
+    </dbConfig>
+
+am
+	接口
+	应用
+um
+	user
+	role
+	permission
+	ur,rp,up
+idn
+
+identity
+	idp
+	sp
+
+apimgt
+	idn
+	sp_app
+	idp
+	am
+
+outside
+	reg
+	um
+
+有关Token API接口，最简单的认证方式：
+https://docs.wso2.com/pages/viewpage.action?pageId=45951039
+
+更复杂点的Token API
+https://docs.wso2.com/display/APICloud/Token+API
+
+感觉User access token 主要用于第三方调用
+而application access token 主要用于
+
+所以原始需求里的那个访问权限控制可能是在API上加scope，利用OAuth的针对权限的授权实现不同角色的不同访问权限
+
+Todo:					
+1. 问APIM	服务质量监控(耗时)，调用时间统计需要确认				
+	流量报警，是否支持流量统计和相应服务限制				
+2. 问车联平台	事件订阅类型API的需求场景				
+	回调注册类型API的需求场景				
+
+开关
+锁
+窗
+座椅
+空调
+门
+反向事件的推送
+
+开放接口平台监听车联能力应用发布的各类时间，组装请求并发往各平台注册的回调地址
+
+开放接口平台，除了HTTP外，有没有更快的接口。
+
+原来的服务走Dubbo
+例子carbon-repo
+D:\Work\wso2\repo\carbon-repo
+
+去掉 ${CARBON_HOME}-Xbootclasspath/a:${CARBON_XBOOTCLASSPATH}
+
+[2015-11-17 06:44:59,757]  INFO {org.wso2.carbon.registry.eventing.internal.RegistryEventingServiceComponent} -  Successfully Initialized Eventing on Registry
+[2015-11-17 06:45:00,327]  INFO {org.wso2.carbon.core.init.JMXServerManager} -  JMX Service URL  : service:jmx:rmi://localhost:11111/jndi/rmi://localhost:9999/jmxrmi
+[2015-11-17 06:45:00,328]  INFO {org.wso2.carbon.core.internal.StartupFinalizerServiceComponent} -  Server           :  ${product.name}-${product.version}
+[2015-11-17 06:45:00,328]  INFO {org.wso2.carbon.core.internal.StartupFinalizerServiceComponent} -  WSO2 Carbon started in 81 sec
+[2015-11-17 06:45:00,370]  INFO {org.wso2.carbon.bam.service.data.publisher.internal.StatisticsServiceComponent} -  BAM Service Stat Publishing is disabled
+[2015-11-17 06:45:00,839]  INFO {org.wso2.carbon.ui.internal.CarbonUIServiceComponent} -  Mgt Console URL  : https://10.0.2.15:9443/carbon/
+[2015-11-17 06:45:00,839]  INFO {org.wso2.carbon.ui.internal.CarbonUIServiceComponent} -  API Publisher Default Context : http://10.0.2.15:9763/publisher
+[2015-11-17 06:45:00,839]  INFO {org.wso2.carbon.ui.internal.CarbonUIServiceComponent} -  API Store Default Context : http://10.0.2.15:9763/store
+[2015-11-17 06:51:31,108] ERROR {org.jaggeryjs.jaggery.core.manager.CommonManager} -  A module cannot be found with the specified name : encode
+
+The synapse.xml location .\.\./repository/deployment/server/synapse-configs\default doesn't exist
+
+启动入口
+org.wso2.carbon.bootstrap-4.2.0.jar
+http://blog.csdn.net/cn_yh/article/details/39203897
+C:\workspace\wso2\product-apim-1.9.1\modules\p2-profile\product\target\wso2carbon-core-4.2.0\repository\deployment\server\jaggeryapps\publisher\site\themes\default\lib
+org.wso2.carbon.server-4.2.0.jar -org.wso2.carbon.server/target
+tomcat-juli-7.0.34.jar carbon-product/moduels/p2-profile-gen/target/
+	
+貌似这个是API Manager 1.9.1 home
+C:\workspace\wso2\product-apim-1.9.1\modules\p2-profile\product\target\wso2carbon-core-4.2.0
+下面有所谓的bin,lib,repository目录
+而且bin下面也有
+这里面有bin
+具体是
+am-parent
+->modules
+->am-p2-profile-gen-parent
+->am-p2-profile
+->target
+->wso2carbon-core-4.2.0
+->repository
+->conf
+->datasources
+->master-datasources.xml
+
+有关汉化
+http://m.blog.csdn.net/blog/szh1124/41745899
+
+论坛
+https://wso2.org/jira/browse/APIMANAGER-4105?filter=12237
+
+Couldn't initialize the ESB... org.apache.synapse.SynapseException: The synapse.xml
+
+[2015-11-17 08:17:11,106]  WARN {org.wso2.carbon.stratos.landing.page.deployer.LandingPageWebappDeployer} -  Product landing page not found.
+
+A module cannot be found with the specified name : encode (/publisher/site/pages/header.jag#54) (/publisher/site/pages/index.jag#3)
+
+这个是Carbon Kernel master的CARBON_HOME
+C:\workspace\wso2\carbon-kernel-master\distribution\kernel\carbon-home
+Eclipse project
+入口
+carbon
+->kernel
+->org.wso2.carbon.bootstrap
+->Bootstrap.java
+
+Eclipse build出来准备发布的包的设置
+carbon
+->carbon-kernel-distribution
+->wso2carbon-core
+->carbon-home
+->repository
+->conf
+->datasources
+->master-datasources.xml
+
+CARBON_HOME 如果要启动APIM1.9.1 用
+	C:\workspace\wso2\product-apim-1.9.1\modules\p2-profile\product\target\wso2carbon-core-4.2.0
+如果启动CARBON-KERNEL master 用
+	C:\workspace\wso2\carbon-kernel-master\distribution\kernel\carbon-home
+	
+https://docs.wso2.com/display/DVS380/Quick+Start+Guide
+
+第一张图要精心制作
+主要就是单独部署的子系统里面填功能模块
+第二就是前后要一致
+第三就是怎么用
+GUI, SDK sample （同步）
+Rest call rest, URI+Access token.
+
+wso2 api manager issue tracker
+https://wso2.org/jira/browse/APIMANAGER
+
+本地的proxy起来，然后把Eclipse的proxy起来，最后把/.m2/settings.xml里面的proxy里的proxy server设置成localhost, 不要用固定IP地址
+
+http://maven.wso2.org/nexus/content/repositories/snapshots/org/wso2/carbon/apimgt/org.wso2.carbon.forum.server.feature/2.0.1-SNAPSHOT/org.wso2.carbon.forum.server.feature-2.0.1-SNAPSHOT.zip
+Then, install it using the command: 
+    mvn install:install-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.forum.server.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=/path/to/file
+
+	mvn install:install-file -DgroupId=org.apache.maven.plugins -DartifactId=maven-plugin-plugin -Dversion=3.2 -Dpackaging=jar -Dfile=C:\Users\Robert\.m2\repository\org\apache\maven\plugins\maven-plugin-plugin\3.2\maven-plugin-plugin-3.2.jar
+	
+	mvn install:install-file -DgroupId=org.apache.maven.plugins -DartifactId=maven-plugin-plugin -Dversion=3.2 -Dpackaging=jar -Dfile=C:/Users/Robert/.m2/repository/org/apache/maven/plugins/maven-plugin-plugin/3.2/maven-plugin-plugin-3.2.jar
+	
+	
+Alternatively, if you host your own repository you can deploy the file there: 
+    mvn deploy:deploy-file -DgroupId=org.wso2.carbon.apimgt -DartifactId=org.wso2.carbon.forum.server.feature -Dversion=2.0.1-SNAPSHOT -Dpackaging=zip -Dfile=/path/to/file -Durl=[url] -DrepositoryId=[id]
+
+from the specified remote repositories:
+  wso2-nexus (http://maven.wso2.org/nexus/content/groups/wso2-public/, releases=true, snapshots=true),
+  wso2.releases (http://maven.wso2.org/nexus/content/repositories/releases/, releases=true, snapshots=true),
+  wso2.snapshots (http://maven.wso2.org/nexus/content/repositories/snapshots/, releases=false, snapshots=true),
+  central (http://repo.maven.apache.org/maven2, releases=true, snapshots=false)
+
+You don't need to download the carbon-kernel just to build the API Manager. Carbon-Kernel is the core module/platform for all of the WSO2 products.
+Please follow the steps to build the API Manager from source code.
+carbon-apimgt repo has all the components related to API Manager which are reused by other WSO2 products. You have to checkout carbon-apimgt-v1.9.1 tag for API Manager 1.9.1
+Build this component repo using mvn clean install
+product-apim repo has the neccessary artifacts for the API Manager product. For API Manager 1.9.1, you have to checkout v1.9.1 tag
+Build the repo using mvn clean install
+
+https://docs.wso2.com/display/DVS380/Retail+Banking+Sample#RetailBankingSample-InstallandconfigureApacheActiveMQ
+all WSO2 server products listen on ports 9763 (HTTP) and 9443 (HTTPS) by default. 
+This port conflict can be avoided by changing an "offset" parameter in the servers' 
+main configuration file (the file carbon.xml found in $CARBON_HOME/repository/conf). 
+We set offset for different carbon servers as follows.
+WSO2 App Server - 10 (App Server will now listen on 9773 and 9453)
+WSO2 ESB - 1 (ESB will now listen on 9764 and 9444)
+WSO2 BPS - 2 (Business Process Server will now listen on 9765 and 9445)
+WSO2 DSS - 6 (Data Services Server will now listen on 9769 and 9449)
+AS和ESB要打开JMS通过ActiveMQ
+http://localhost:8161/admin/browse.jsp?JMSDestination=FirstQueue
+
+https://docs.wso2.com/display/DVS380/Retail+Banking+Sample#RetailBankingSample-SampleScenario
+https://docs.wso2.com/display/DVS380/Retail+Banking+Sample#RetailBankingSample-InstallandconfigureApacheActiveMQ
+
+1.7.0.71 better
+
+[INFO] Apache Synapse - Secure vault ..................... SUCCESS [  8.200 s]
+[INFO] Apache Synapse .................................... SUCCESS [  4.581 s]
+[INFO] Apache Synapse - Commons classes .................. SUCCESS [  9.245 s]
+[INFO] Apache Synapse - Transports ....................... SUCCESS [  3.285 s]
+[INFO] Apache Synapse - Non-blocking HTTP/s Transport .... SUCCESS [ 10.879 s]
+[INFO] Apache Synapse - PIPE Transport ................... SUCCESS [  3.080 s]
+[INFO] Apache Synapse - VFS Transport .................... SUCCESS [  3.979 s]
+[INFO] Apache Synapse - Tasks classes .................... SUCCESS [  2.474 s]
+[INFO] Apache Synapse - Core ............................. SUCCESS [ 29.126 s]
+[INFO] Apache Synapse - FIX Transport .................... SUCCESS [  5.108 s]
+[INFO] Apache Synapse - Extensions ....................... SUCCESS [ 17.007 s]
+[INFO] Apache Synapse - Samples .......................... SUCCESS [  5.731 s]
+[INFO] Apache Synapse - Patches .......................... SUCCESS [ 41.043 s]
+[INFO] Apache Synapse - Experimental code ................ SUCCESS [  2.033 s]
+[INFO] Apache Synapse - Web Application .................. SUCCESS [ 10.094 s]
+  
+[ERROR] Plugin org.apache.maven.plugins:maven-plugin-plugin:3.2 or one of its dependencies could not be resolved: 
+Failed to read artifact descriptor for org.apache.maven.plugins:maven-plugin-plugin:jar:3.2: 
+Could not transfer artifact org.apache.maven.plugins:maven-plugin-plugin:pom:3.2 from/to central (http://repo.maven.apache.org/maven2): 
+java.lang.OutOfMemoryError: PermGen space -> [Help 1]
+	
+https://github.com/wso2/carbon4-kernel
+https://github.com/wso2/product-apim 
+	https://github.com/wso2/product-apim/tree/master
+https://github.com/wso2/carbon-apimgt/tags
+git clone https://github.com/wso2/developer-studio.git
+
+curl -k -H "Authorization :Bearer db91f59bb9adce1c99fa478a62efa3a8" 'https://10.25.31.83/hello/1.0.0'
+
+curl -k -H "Authorization :Bearer db91f59bb9adce1c99fa478a62efa3a8" http://10.25.31.83:8280/hello/1.0.0
+it works!!!!
+
+curl -k -H "Authorization :Bearer db91f59bb9adce1c99fa478a62efa3a8" http://10.25.31.83:8280/hello/1.0.0/
+it works
+
+2 APIs
+http all done.
+1. Hello
+http://localhost:9090/RestDemo/rest/hello
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/hello/1.0.0
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" https://10.25.31.83:8243/hello/1.0.0
+Hello World!
+
+http://localhost:9090/RestDemo/rest/hello/yu
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/hello/1.0.0/yu
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" https://10.25.31.83:8243/hello/1.0.0/yu
+Hello yu
+
+2. Users
+http://localhost:9090/RestDemo/rest/users
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/users/1.0.0
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" https://10.25.31.83:8243/users/1.0.0
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><users></users>
+
+http://localhost:9090/RestDemo/rest/users/getUserXml
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/users/1.0.0/getUserXml
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" https://10.25.31.83:8243/users/1.0.0/getUserXml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><user><age>21</age><userId>004</userId><userName>Amand</userName></user>
+
+http://localhost:9090/RestDemo/rest/users/getUserJson
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/users/1.0.0/getUserJson
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" https://10.25.31.83:8243/users/1.0.0/getUserJson
+{"userId":"005","userName":"Fmand","age":"27"}
+
+如果配置了缺省版本号，那这个也是可以的
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/users/getUserJson
+
+POST (add)
+curl -k -X POST -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" -H "Content-Type:application/xml" -d '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><user><age>21</age><userId>006</userId><userName>Susan</userName></user>' http://10.25.31.83:8280/users/1.0.0
+
+GET(byID 006)
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/users/1.0.0/006
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><user><age>21</age><userId>006</userId><userName>Susan</userName></user>
+
+PUT()
+curl -k -X PUT -H "Authorization :Bearer dd475248e67de4362f96adf38a97530" -H "Content-Type:application/xml" -d '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><user><age>33</age><userId>006</userId><userName>Susan</userName></user>' http://10.25.31.83:8280/users/1.0.0
+
+GET(byID 006)
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/users/1.0.0/006
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><user><age>33</age><userId>006</userId><userName>Susan</userName></user>
+
+DELETE (del)
+curl -k -X DELETE -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/users/1.0.0/006
+
+GET(byID 006)
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/users/1.0.0/006
+NULL
+
+GET（All）
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/users/1.0.0
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><users></users>
+
+POST (add json)
+curl -k -X POST -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" -H "Content-Type:application/json" -d '{"userId":"007","userName":"JamesBond","age":"28"}' http://10.25.31.83:8280/users/1.0.0
+
+GET(byID 006)
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/users/1.0.0/007
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><user><age>21</age><userId>006</userId><userName>Susan</userName></user>
+
+用户admin的App AdminDemoApp 100个月的token
+3212f47ce21b63dab40b863e6a7e5
+
+UserApp
+
+curl -k -H "Authorization :Bearer dd475248e67de4362f96adf38a97530" http://10.25.31.83:8280/users/1.0.0
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><users><user><age>28</age><userId>007</userId><userName>JamesBond</userName></user></users>
+
+
+PUT (udpate)
+
+Make sure your have given the correct access token
+token过期了
+
+鉴权
+1. 不需要内部资源的（比如车人信息的）
+curl -k -d "grant_type=client_credentials" -H "Authorization: Basic WW1qV3B2Rkw3QVVybWRPNVdEa2ZYbERjdVYwYTpYUk50U0VKVEMzdkMydWFUV1U3UGZwdFN1Wm9h, Content-Type: application/x-www-form-urlencoded" https://10.25.31.83:8243/token
+{"scope":"am_application_scope default","token_type":"bearer","expires_in":3600,"access_token":"6fab74d673a95bccb2d7d6c8e29549d"}
+
+curl -k -H "Authorization :Bearer 6fab74d673a95bccb2d7d6c8e29549d" http://10.25.31.83:8280/users/1.0.0
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><users></users>
+
+http://stackoverflow.com/questions/27211012/how-to-send-json-object-from-rest-client-using-javax-ws-rs-client-webtarget
+https://jersey.java.net/documentation/latest/client.html
+JAXWS-RI 帮助文档
+
+应用通过用户授权获取一个code,用它和AppSecret 用Post方式调用开放平台获取一个access token
+
+to Clarify:
+1. 应用 ZXQ 自动订阅所有API，等待用户登录后，获取自己那台车的所有服务。
+2. 第三方应用 订阅某些API，等待用户登录后，获取自己那台车上某些服务。
+
+https://github.com/lingchen5726/RestStudy
+https://www.base64encode.org/
+
+TBD:
+1. https 不认证模式 或者改改key的地址什么的
+2. curl get token
+3. java get token
+4. 那几种认证 YAML2.0 token, OAuth code -> generate token 搞搞清楚，与晓东讨论讨论。
+5. 上午10点半有个面试
+6. 把工作量评估细化一下。
+7. 找继哲搞搞虚机的事情
+8. 找找李喜勇，勇哥玩玩已收藏音乐的开放接口。
+
+有关鉴权
+http://tools.ietf.org/html/rfc6749#section-1.3
+
+还有就是WSO2 API Manager的鉴权和Identity Server是什么关系？
+
+up vote
+2
+down vote
+Setup Identity Server [domain:9443]
+Create OAuth2 application, and get client id + consumer key
+Get Base64 encoded of clientId:consumerKey - replace this for Authorization Basic xxxxx
+Replace the REST endpoint for token generation - This you should get in oauth application on management console [in our case https://domain:9443/oauth2/token]
+And below curl command should give you the response
+curl -k -d "grant_type=password&username=sasikumar@domain.com&password=xxxx1234" -H "Authorization" -H 
+"Authorization: Basic X2dhWllidkN6TDNQY2ZqSmVBQ1lsNlg2SFdRYTpSQVlSMmxOZzQ0enU5ZXVGSDRDVXdOUWRudlVh, Content-type=application/x-www-form-urlencoded"  
+https://domain:9443/oauth2/token
+
+If the Key Manager is running on a different server from the API Gateway instance, change the host and port of the endpoints of the default APIs that are in <APIM_HOME>/repository/deployment/server/synapse-configs/default/api to the correct address of the Key Manager.
+

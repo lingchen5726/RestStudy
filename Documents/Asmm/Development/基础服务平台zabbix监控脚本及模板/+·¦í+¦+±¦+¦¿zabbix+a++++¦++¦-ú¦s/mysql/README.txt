@@ -1,0 +1,2 @@
+1、将zbx_export_templates_mysql.xml导入到zabbix中
+2、将userparameter_mysql.conf拷至每个MySQL节点/etc/zabbix/zabbix_agentd.d/目录下
