@@ -12,7 +12,7 @@ public class HelloResource {
     @GET  
     @Produces(MediaType.TEXT_PLAIN)  
     public String sayHello() {  
-        return "Hello World!" ;  
+        return "Welcome to API Manager" ;  
     }  
    
       
@@ -20,7 +20,7 @@ public class HelloResource {
     @Path("/{param}")    
     @Produces("text/plain;charset=UTF-8")  
     public String sayHelloToUTF8(@PathParam("param") String username) {  
-        return "Hello " + username;  
+        return "Welcome to AS, " + username+" !";  
     }  
       
 }
