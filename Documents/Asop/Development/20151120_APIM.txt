@@ -328,3 +328,9 @@ https://docs.wso2.com/display/APICloud/Invoke+an+API+using+cURL
 
 日志 反欺诈
 https://docs.wso2.com/display/APICloud/Tutorials
+
+Exchanging SAML2 Bearer Tokens with OAuth2 (SAML Extension Grant Type)
+Generating Access Tokens with Authorization Code (Authorization Code Grant Type)
+Generating Access Tokens with NT LAN Manager (NTLM Grant Type)
+Generating Access Tokens with User Credentials (Password Grant Type)
+

@@ -36,7 +36,7 @@ public class ASAPIMUserClient {
 	//tmp token: 79d8bda8c598f69153859b0eb6a026
     private static String serverUri = "http://localhost:9090/RestDemo/rest"; 
     private static String asApimUsersUri = "http://10.25.31.83:8280/users/1.0.0"; 
-    private static String tempToken = "dd475248e67de4362f96adf38a97530";
+    private static String tempToken = "35b7dd9dbbf22e59382a67a64054a839";
     
     /** 
      * @param args 
