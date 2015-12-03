@@ -334,3 +334,29 @@ Generating Access Tokens with Authorization Code (Authorization Code Grant Type)
 Generating Access Tokens with NT LAN Manager (NTLM Grant Type)
 Generating Access Tokens with User Credentials (Password Grant Type)
 
+创建淘宝开放平台应用的步骤简单记录
+http://blog.csdn.net/kkdelta/article/details/19543995/
+1，注册成为开发者，创建一个应用，
+参照下面的链接如何选择应用
+http://open.taobao.com/doc/detail.htm?id=101710
+创建应用的时候有一个回调地址url，
+回调地址是用来接收TOP（开放平台）返回授权相关数据的，
+下面是你的应用使用TOP API的流程：在没有上线之前测试都在所谓的沙箱模式下进行的。
+1，以web应用为例，用户访问你的web，你的web应用redirect用户到淘宝的登录认证，比如如下
+https://oauth.tbsandbox.com/authorize?response_type=code&client_id=1021738064&redirect_uri=http%3A%2F%2Fdev2dev.sinaapp.com%2Ftaobao%2Fcallback.php&from_site=fuwu
+2，用户用淘宝账号登录，redirec用户到回调的url，就是你的应用的一个url
+3，一个授权码code会作为参数传给回调的url，你的应用用这个授权码code以post的方式访问淘宝的
+https://oauth.tbsandbox.com/token获取token
+4，得到token后就可以调用淘宝的API了。
+参照下面的链接获取更多关于认证的信息
+http://open.taobao.com/doc/detail.htm?spm=0.0.0.0.CSGRVZ&id=118
+
+https://oauth.tbsandbox.com/authorize?response_type=code&client_id=1021738064&redirect_uri=http%3A%2F%2Fdev2dev.sinaapp.com%2Ftaobao%2Fcallba
+
+音乐，FM, 李喜勇
+Dubbo TCP.
+data={"":}
+Swagger
+http://../music/1.0.0?data=
+status=
+sign=md5(content+private key)

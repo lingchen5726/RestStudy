@@ -598,6 +598,8 @@ curl -k -H "Authorization :Bearer dd475248e67de4362f96adf38a97530" http://10.25.
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?><users><user><age>28</age><userId>007</userId><userName>JamesBond</userName></user></users>
 
 
+curl -k -H "Authorization :Bearer 3212f47ce21b63dab40b863e6a7e5" http://10.25.31.83:8280/users/1.0.0
+
 PUT (udpate)
 
 Make sure your have given the correct access token
@@ -626,10 +628,10 @@ https://www.base64encode.org/
 
 TBD:
 1. https 不认证模式 或者改改key的地址什么的
-2. curl get token
+2. curl get token, application done, now auth.
 3. java get token
 4. 那几种认证 YAML2.0 token, OAuth code -> generate token 搞搞清楚，与晓东讨论讨论。
-5. 上午10点半有个面试
+	5. 上午10点半有个面试 done.
 6. 把工作量评估细化一下。
 7. 找继哲搞搞虚机的事情
 8. 找找李喜勇，勇哥玩玩已收藏音乐的开放接口。
@@ -652,4 +654,164 @@ curl -k -d "grant_type=password&username=sasikumar@domain.com&password=xxxx1234"
 https://domain:9443/oauth2/token
 
 If the Key Manager is running on a different server from the API Gateway instance, change the host and port of the endpoints of the default APIs that are in <APIM_HOME>/repository/deployment/server/synapse-configs/default/api to the correct address of the Key Manager.
+
+OAuth学习
+http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html
+授权码模式（authorization code）
+简化模式（implicit）
+密码模式（resource owner password credentials）
+客户端模式（client credentials）
+
+https://docs.wso2.com/display/AM191/Quick+Start+Guide
+https://docs.wso2.com/display/AM191/WSO2+API+Manager+Documentation
+Auth code API
+https://docs.wso2.com/pages/viewpage.action?pageId=47515508
+https://docs.wso2.com/display/AM191/Token+API
+
+有关公钥私钥
+http://blog.csdn.net/21aspnet/article/details/7249401
+加密：
+公加传
+私解
+
+认证：
+私加传
+公解
+公钥1，私钥2
+但是我的好朋友x说有人冒充我给他发信。怎么办呢？我把我要发的信，内容是c，用我的私钥2，加密，加密后的内容是d，发给x，再告诉他
+解密看是不是c。他用我的公钥1解密，发现果然是c。
+这个时候，他会想到，能够用我的公钥解密的数据，必然是用我的私钥加的密。只有我知道我得私钥，因此他就可以确认确实是我发的东西。
+这样我们就能确认发送方身份了。这个过程叫做数字签名。
+
+RSA算法
+RSA公钥加密算法是1977年由Ron Rivest、Adi Shamirh和LenAdleman在（美国麻省理工学院）开发的。RSA取名来自开发他们三者的名字。RSA是目前最有影响力的公钥加密算法，它能够抵抗到目前为止已知的所有密码攻击，已被ISO推荐为公钥数据加密标准。RSA算法基于一个十分简单的数论事实：将两个大素数相乘十分容易，但那时想要对其乘积进行因式分解却极其困难，因此可以将乘积公开作为加密密钥。
+私钥是某两个大素数，公钥是其乘积。
+2048/8=256个字节
+
+有关https
+http://blog.csdn.net/lvxiangan/article/details/42147711
+
+今天好好看了看OAuth的Auth code部分
+加解密部分
+非对称加密算法对加密内容的长度有限制，不能超过公钥长度。比如现在常用的公钥长度是2048位，意味着待加密内容不能超过256个字节。
+
+数字证书:
+身份验证: 确保客户端访问的网站是经过CA验证的可信任的网站。
+分发公钥: 每个数字证书都包含了注册者生成的公钥。在SSL握手时会通过certificate消息传输给客户端。
+
+公钥和域名还有CU等资料给CA
+SHA-RSA数字签名：
+签发：使用哈希函数对证书数据哈希，生成消息摘要，然后使用CA自己的私钥对证书内容和消息摘要进行加密。
+校验：使用CA的公钥解密签名，然后使用相同的签名函数对证书内容进行签名并和服务端的数字签名里的签名内容进行比较，如果相同就认为校验成功。
+
+请求资源服务器的auth code
+curl -k -H "Content-Type: application/x-www-form-urlencoded" https://localhost:8243/authorize?response_type=code&client_id=2dcsMOJUkzNX3QN7gQkbyi30fWIa&scope=PRODUCTION&redirect_uri=http%3A%2F%2Flocalsample.com%2Fbc
+https://localhost:8243/authorize.
+query component: response_type=code&client_id=<consumer_key>&scope=PRODUCTION&redirect_uri=<application_callback_url>
+headers: Content-Type: application/x-www-form-urlencoded
+
+请求开放接口服务器的Token
+curl -k -H "Authorization: Basic 37af57838ed8566d2184ec1cb6aaad" -H "Content-Type: application/x-www-form-urlencoded" https://localhost:8243?grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
+
+POST /token HTTP/1.1
+Host: server.example.com 
+Authorization: Basic 37af57838ed8566d2184ec1cb6aaad
+Content-Type:
+application/x-www-form-urlencoded 
+grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
+
+
+开放接口及
+单元及生产环境服务器计划 9号，还有证书的问题，需要
+
+3号，两块的任务细化表。
+
+1月底，开放接口内部上线。
+
+与小东谈调用内部服务时，需要带什么样的token。
+然后是怎么获取这个token。
+
+从应用开发的视角，与喜勇谈authorize server提供的登录页面，Authorize和token服务端要提供什么样的接口。
+
+最好是从现有应用与账号的应用出发。
+
+还有就是https的问题，客户端应该怎么调用。
+
+TBD:
+1. https
+2. auth
+
+目前淘宝OAuth2.0服务支持采用以下4种获取Access Token（授权令牌）的方式：
+
+Server-side flow 此流程要求ISV应用有Web Server应用，能够保存应用本身的密钥以及状态，可以通过https直接访问淘宝的授权服务器。
+	类似于WSO2的Auth code模式
+Client-side flow 此流程适用于没有独立服务器的应用，但是能够借助浏览器或者JS脚本访问授权服务器。
+Native Application 此流程适合客户端应用，同时应用无法与浏览器交互，但是可以外调用浏览器。
+
+Refreshing an Access Token 用户如果在获取访问令牌时，同时获取到了刷新令牌，当访问令牌过期时，用户可以用刷新令牌刷新，从而延长访问令牌的时间。
+
+Server-side flow
+回调URL就是第三方应用的一个Web服务器，提供了一个POST服务呗
+
+Native Application 模式
+https://oauth.taobao.com/authorize?response_type=code&client_id=12304977&redirect_uri= 
+urn:ietf:wg:oauth:2.0:oob&state=1212&view=web
+
+此流程需要您有自己的web服务器,能够保存应用本身的密钥以及状态，可以通过https直接访问淘宝的授权服务器。
+	https://oauth.taobao.com/authorize?response_type=code&client_id=12304977&redirect_uri=http://www.oauth.net/2/&state=1212&view=web
+	curl -i -d "code=xMuBtklMeuxr0AujfjOZ3lht1&grant_type=authorization_code&client_id=12304977&client_secret=9288fb99669a14b6a9bf28e49b270f98&redirect_uri=http://www.oauth.net/2/ " https://oauth.taobao.com/token
+	
+没有回调，能交互
+	https://oauth.taobao.com/authorize?response_type=token&client_id=12304977&redirect_uri=http://www.oauth.net/2/&state=1212
+
+无回调，无交互
+	https://oauth.taobao.com/authorize?response_type=code&client_id=12304977&redirect_uri= urn:ietf:wg:oauth:2.0:oob&state=1212&view=web
+	curl -i -d "code=xMuBtklMeuxr0AujfjOZ3lht1&grant_type=authorization_code&client_id=12304977&client_secret=9288fb99669a14b6a9bf28e49b270f98&redirect_uri= urn:ietf:wg:oauth:2.0:oob" https://oauth.taobao.com/token
+	
+	在一台单独的服务器配置一个WSO2 API Manager实例作为Key Manager。
+	配置一个WSO2 Identity Server的实例作为Key Manager。
+	配置一个第三方的授权服务器用于密钥验证，和一个API Manager实例用于其余的密钥管理操作。
+
+WSO2 Key manager 和 Identity Server的关系
+https://docs.wso2.com/display/AM191/Configuring+WSO2+Identity+Server+as+the+Key+Manager
+	
+
+https://docs.wso2.com/display/AM191/Configuring+a+Third-Party+Key+Manager
+
+API Gateway <->Thrift Key Manager	
+https://docs.wso2.com/display/AM191/Key+Concepts#KeyConcepts-KeyManager
+
+配置AM1.9.1里预置的Identity Server ( IS 5.0.0 with Service Pack 1)
+https://docs.wso2.com/display/CLUSTER420/Configuring+the+Pre-Packaged+Identity+Server+5.0.0+with+API+Manager+1.9.1
+D:\wso2\wso2am-1.9.1\repository\conf\api-manager.xml
+ServerURL of the AuthManager
+	<ServerURL>https://${carbon.local.ip}:${mgt.transport.https.port}${carbon.context}/services/</ServerURL>
+ServerURL of the APIKeyValidator 预置为Identity Server(预装或已安装的)
+	<ServerURL>https://${carbon.local.ip}:${mgt.transport.https.port}${carbon.context}/services/</ServerURL>
+
+有关API Manager如何用一个OAuth2 Server来做Identity Server的例子。
+https://docs.wso2.com/display/AM191/Configuring+a+Third-Party+Key+Manager
+https://github.com/OAuth-Apis/apis/tree/apis-parent-1.3.5
+下载一个OAuth Server 自己试试。
+
+resource owner 
+Agent(Browser e.g. Chrome)
+Client (e.g. ZXQ or 3rd-party application)
+Authorization server
+Resource server
+
+mvn clean install -Dmaven.test.skip=true
+
+鉴权那边只有一个接口，就是登陆
+xx.com/login?user=xx&passwd=yy&login_timestamp=tt
+userId+tt -> md5 -> ZXQ token.
+
+REST service call
+
+appkey, appsecret, application token
+
+ZXQApp call (token, )
+
+
+
 
