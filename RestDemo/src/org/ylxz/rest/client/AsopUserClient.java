@@ -29,7 +29,7 @@ import org.ylxz.rest.bean.User;
  * @author waylau.com 
  * 2014-3-18 
  */  
-public class ASAPIMUserClient {  
+public class AsopUserClient {  
   
 	//App: UserApp
 	//Key: YmjWpvFL7AUrmdO5WDkfXlDcuV0a
