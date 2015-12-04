@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 
 
 
+
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;  
   
 import org.glassfish.jersey.SslConfigurator;
@@ -35,8 +36,8 @@ public class ASAPIMUserClient {
 	//Secret: XRNtSEJTC3vC2uaTWU7PfptSuZoa
 	//tmp token: 79d8bda8c598f69153859b0eb6a026
     private static String serverUri = "http://localhost:9090/RestDemo/rest"; 
-    private static String asApimUsersUri = "http://10.25.31.83:8280/users/1.0.0"; 
-    private static String tempToken = "35b7dd9dbbf22e59382a67a64054a839";
+    private static String asApimUsersUri = "http://localhost:8280/users/1.0.0"; 
+    private static String tempToken = "3212f47ce21b63dab40b863e6a7e5";
     
     /** 
      * @param args 
@@ -155,12 +156,14 @@ public class ASAPIMUserClient {
          invocationBuilder.header("Authorization", "Bearer "+tempToken);
          Response response = invocationBuilder.get();
          
-         User user = response.readEntity(User.class);
-         if (null!=user) {
-        	 System.out.println(user.getUserId() + user.getUserName()  +  user.getAge());
-         }  else {
-        	 System.out.println("No user found.");
+         //User user = response.readEntity(User.class);
+         String value = response.readEntity(String.class);  
+         if ("".equals(value)) {
+        	 System.out.println("No user found");
+         } else {
+        	 System.out.println(value);
          }
+         //System.out.println(user.getUserId() + user.getUserName()  +  user.getAge());
          if (response.getStatus()!=200 && response.getStatus()!=204) {
         	 System.out.println(response.getStatus());
          }

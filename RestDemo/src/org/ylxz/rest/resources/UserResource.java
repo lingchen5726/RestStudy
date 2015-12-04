@@ -105,7 +105,8 @@ public class UserResource {
      */  
     @GET  
     @Path("{id}")  
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})  
+    //@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})  
+    @Produces({MediaType.APPLICATION_JSON})
     public User getUserById(@PathParam("id") String id){  
         User u = userMap.get(id);  
         return u;  

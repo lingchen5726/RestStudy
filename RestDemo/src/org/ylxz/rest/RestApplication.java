@@ -14,3 +14,4 @@ public class RestApplication extends ResourceConfig {
    
     }  
 }  
+

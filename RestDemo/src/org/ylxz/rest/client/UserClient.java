@@ -14,7 +14,6 @@ import org.ylxz.rest.bean.User;
    
 /** 
  * 用户客户端，用来测试资源 
- * @author waylau.com 
  * 2014-3-18 
  */  
 public class UserClient {  
@@ -24,7 +23,6 @@ public class UserClient {
      * @param args 
      */  
     public static void main(String[] args) {  
-        addUser();
         addUser();
         getAllUsers();  
         updateUser();  
@@ -38,7 +36,7 @@ public class UserClient {
      * 添加用户 
      */  
      private static void addUser() {  
-         System.out.println("****增加用户addUser****");  
+         System.out.println("****增加用户006,Susan,21****");  
          User user = new User("006","Susan","21");    
          Client client = ClientBuilder.newClient();  
          WebTarget target = client.target(serverUri + "/users");  
@@ -50,7 +48,7 @@ public class UserClient {
      * 删除用户 
      */  
      private static void delUser() {  
-         System.out.println("****删除用户****");  
+         System.out.println("****删除用户006****");  
          Client client = ClientBuilder.newClient();  
          WebTarget target = client.target(serverUri + "/users/006");  
          Response response = target.request().delete();  
@@ -62,7 +60,7 @@ public class UserClient {
      * 修改用户 
      */  
      private static void updateUser() {  
-         System.out.println("****修改用户updateUser****");  
+         System.out.println("****修改用户updateUser，将age从21改成33****");  
          User user = new User("006","Susan","33");    
          Client client = ClientBuilder.newClient();  
          WebTarget target = client.target(serverUri + "/users");  
@@ -77,8 +75,9 @@ public class UserClient {
          Client client = ClientBuilder.newClient().register(JacksonJsonProvider.class);// 注册json 支持  
          WebTarget target = client.target(serverUri + "/users/006");  
          Response response = target.request().get();  
-         User user = response.readEntity(User.class);  
-         System.out.println(user.getUserId() + user.getUserName()  +  user.getAge());  
+         String value = response.readEntity(String.class);  
+         System.out.println(value);
+         //System.out.println(user.getUserId() + user.getUserName()  +  user.getAge());  
          response.close();  
     }  
     /** 
